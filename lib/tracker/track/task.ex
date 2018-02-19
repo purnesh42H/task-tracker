@@ -9,7 +9,7 @@ defmodule Tracker.Track.Task do
     field :is_completed, :boolean, default: false
     field :minutes, :integer
     field :title, :string
-    field :user_id, :id
+    belongs_to :user, Tracker.Accounts.User
 
     timestamps()
   end
@@ -17,7 +17,7 @@ defmodule Tracker.Track.Task do
   @doc false
   def changeset(%Task{} = task, attrs) do
     task
-    |> cast(attrs, [:title, :description, :minutes, :is_completed])
-    |> validate_required([:title, :description, :minutes, :is_completed])
+    |> cast(attrs, [:title, :description, :minutes, :is_completed, :user_id])
+    |> validate_required([:title, :description, :minutes, :is_completed, :user_id])
   end
 end

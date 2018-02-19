@@ -35,7 +35,10 @@ defmodule Tracker.Track do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.get!(Task, id)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a task.
