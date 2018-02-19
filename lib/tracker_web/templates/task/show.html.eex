@@ -21,6 +21,11 @@
     <strong>Is completed:</strong>
     <%= @task.is_completed %>
   </li>
+  
+  <li>
+    <strong>User:</strong>
+    <%= @task.user.name %>
+  </li>
 
 </ul>
 
