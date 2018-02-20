@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Tracker!</title>
+    <title>Task Tracker</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -21,7 +21,7 @@
               <%= link "Log Out", to: "/session", method: :delete %>
             </p>
           <% else %>
-            <p>Not logged in.</p>
+            <p>Log in to manage your tasks</p>
           <% end %>
         </div>
       </div>      

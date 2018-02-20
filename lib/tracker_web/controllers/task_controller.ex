@@ -1,6 +1,8 @@
 defmodule TrackerWeb.TaskController do
+  import Ecto.Query, warn: false
   use TrackerWeb, :controller
 
+  alias Tracker.Repo
   alias Tracker.Track
   alias Tracker.Track.Task
 
@@ -9,9 +11,15 @@ defmodule TrackerWeb.TaskController do
     render(conn, "index.html", tasks: tasks)
   end
 
+  def get_users() do
+    query = from(u in Tracker.Accounts.User, select: {u.name})
+    IO.inspect Repo.all(query)
+    Repo.all(query)
+  end
+
   def new(conn, _params) do
     changeset = Track.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, user_list: get_users())
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -21,7 +29,7 @@ defmodule TrackerWeb.TaskController do
         |> put_flash(:info, "Task created successfully.")
         |> redirect(to: task_path(conn, :show, task))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, user_list: get_users())
     end
   end
 
