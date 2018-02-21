@@ -1,13 +1,17 @@
-<h1>Log In</h1>
+<h3>Welcome to Task Tracker</h3>
 <!-- session_path(@conn, :create) -->
 <%= form_tag("/session", method: :post) do %>
+  <%= if @current_user do %>
+    <span><%= link "Task Manager", to: page_path(@conn, :task), class: "btn btn-primary" %></span>
+  <% else %>
    <div class="form-group">
      Email
    <input type="email" name="email" placeholder="user@example.com" >
    </div>
    <!-- passwords come later -->
    <div class="form-group">
-     <button class="btn btn-primary">Log in</button>
-     <%= link "Register", to: user_path(@conn, :new) %>
+     <p><button class="btn btn-primary">Log in</button></p>
+     <span>Not a user yet? <%= link "Register", to: user_path(@conn, :new) %></span>
    </div>
+  <% end %>
 <% end %>
