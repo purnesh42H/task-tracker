@@ -2,7 +2,9 @@
 <!-- session_path(@conn, :create) -->
 <%= form_tag("/session", method: :post) do %>
   <%= if @current_user do %>
-    <span><%= link "Task Manager", to: page_path(@conn, :task), class: "btn btn-primary" %></span>
+    <p><span><%= link "All Users", to: user_path(@conn, :index), class: "btn btn-default" %></span></p>
+    <p><span><%= link "All Tasks", to: task_path(@conn, :index), class: "btn btn-default" %></span></p>
+    <p><span><%= link "Task Manager", to: page_path(@conn, :task), class: "btn btn-primary" %></span></p>
   <% else %>
    <div class="form-group">
      Email
