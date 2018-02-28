@@ -12,6 +12,10 @@ defmodule TrackerWeb.PageController do
     Repo.all(query)
   end
 
+  defp get_task_report(conn) do
+    Enum.reverse(Tracker.Accounts.list_tasks_by_user(conn.assigns[:current_user]))
+  end
+
   def index(conn, _params) do
     if conn.assigns[:current_user] do
       current_user = conn.assigns[:current_user]
@@ -26,10 +30,14 @@ defmodule TrackerWeb.PageController do
     tasks = Tracker.Track.list_tasks()
     current_user = conn.assigns[:current_user]
     t_underlings = Tracker.Accounts.list_underlings(current_user.id)
-    underlings_list = Map.keys(t_underlings)
-    underlings = get_managee(underlings_list)
-    IO.inspect underlings
     changeset = Tracker.Track.change_task(%Tracker.Track.Task{})
-    render conn, "task.html", tasks: tasks, changeset: changeset, underlings: underlings
+    if t_underlings do
+      underlings_list = Map.keys(t_underlings)
+      underlings = get_managee(underlings_list)
+      task_report = get_task_report(conn)
+      render conn, "task.html", tasks: tasks, changeset: changeset, underlings: underlings, task_report: task_report
+    else
+      render conn, "task.html", tasks: tasks, changeset: changeset, underlings: [], task_report: []
+    end
   end
 end

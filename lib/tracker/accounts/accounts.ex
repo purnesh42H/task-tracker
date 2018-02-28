@@ -8,6 +8,8 @@ defmodule Tracker.Accounts do
 
   alias Tracker.Accounts.User
   alias Tracker.Accounts.Manage
+  
+  alias Tracker.Track.Task
 
   @doc """
   Returns the list of users.
@@ -30,6 +32,15 @@ defmodule Tracker.Accounts do
   def list_manage_by_underling(user_id) do
     Repo.all(from f in Manage,
       where: f.user_id == ^user_id)
+  end
+   
+  def list_tasks_by_user(user) do
+    user = Repo.preload(user, :users)
+    underling_ids = Enum.map(user.users, &(&1.id))
+    IO.inspect underling_ids
+    Repo.all(Task)
+    |> Enum.filter(&(Enum.member?(underling_ids, &1.user_id)))
+    |> Repo.preload(:user)
   end
 
   def list_underlings(user_id) do

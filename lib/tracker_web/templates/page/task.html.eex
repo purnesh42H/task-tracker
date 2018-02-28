@@ -8,6 +8,29 @@
       </div>
     </div>
   <% end %>
+  <%= if length(@task_report) > 0 do %>
+    <h1> Underlings Task Report </h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>User</th>
+          <th>Description</th>
+          <th>Completed?</th>
+        <tr>
+      </thead>
+      <tbody>
+        <%= for task <- @task_report do %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= task.user.name %></td>
+            <td><%= task.description  %></td>
+            <td><%= task.is_completed %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
   <h1>Your Tasks</h1>
   <table class="table">
     <thead>
