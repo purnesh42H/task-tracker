@@ -30,6 +30,7 @@
     <%= label f, :minutes, class: "control-label" %>
     <%= number_input f, :minutes, class: "form-control" %>
     <%= error_tag f, :minutes %>
+    <br>
   </div>
 
   <div class="form-group">

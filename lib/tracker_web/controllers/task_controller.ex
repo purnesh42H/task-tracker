@@ -24,7 +24,8 @@ defmodule TrackerWeb.TaskController do
     t_underlings = Tracker.Accounts.list_underlings(current_user.user_id)
     underlings_list = Map.keys(t_underlings)
     underlings = get_managee(underlings_list)
-    render(conn, "new.html", changeset: changeset, underlings: underlings)
+    timeblocks = []
+    render(conn, "new.html", changeset: changeset, underlings: underlings, timeblocks: timeblocks)
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -49,7 +50,8 @@ defmodule TrackerWeb.TaskController do
     t_underlings = Tracker.Accounts.list_underlings(task.user_id)
     underlings_list = Map.keys(t_underlings)
     underlings = get_managee(underlings_list)
-    render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings)
+    timeblocks = Tracker.Track.list_timeblocks(task.id)
+    render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings, timeblocks: timeblocks)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
