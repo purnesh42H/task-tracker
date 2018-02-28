@@ -22,6 +22,22 @@ defmodule Tracker.Accounts do
     Repo.all(User)
   end
 
+  def list_manage_by_user(user_id) do
+    Repo.all(from f in Manage,
+      where: f.manager_id == ^user_id)
+  end
+  
+  def list_manage_by_underling(user_id) do
+    Repo.all(from f in Manage,
+      where: f.user_id == ^user_id)
+  end
+
+  def list_underlings(user_id) do
+    list_manage_by_user(user_id)
+    |> Enum.map(&({&1.user_id, &1.id}))
+    |> Enum.into(%{})
+  end
+
   @doc """
   Gets a single user.
 
@@ -203,12 +219,5 @@ defmodule Tracker.Accounts do
   """
   def change_manage(%Manage{} = manage) do
     Manage.changeset(manage, %{})
-  end
-
-  def manages_map_for(user_id) do
-    Repo.all(from f in Manage,
-      where: f.manager_id == ^user_id)
-    |> Enum.map(&({&1.user_id, &1.id}))
-    |> Enum.into(%{})
   end
 end

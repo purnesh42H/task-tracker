@@ -5,21 +5,26 @@ defmodule TrackerWeb.TaskController do
   alias Tracker.Repo
   alias Tracker.Track
   alias Tracker.Track.Task
+  alias Tracker.Accounts
+  alias Tracker.Accounts.User
 
   def index(conn, _params) do
     tasks = Track.list_tasks()
     render(conn, "index.html", tasks: tasks)
   end
 
-  def get_users() do
-    query = from(u in Tracker.Accounts.User, select: {u.name})
-    IO.inspect Repo.all(query)
+  defp get_managee(managees) do
+    query = from(u in Tracker.Accounts.User, select: {u.name, u.id}, where: u.id in ^managees)
     Repo.all(query)
   end
 
   def new(conn, _params) do
     changeset = Track.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, user_list: get_users())
+    current_user = conn.assigns[:current_user]
+    t_underlings = Tracker.Accounts.list_underlings(current_user.user_id)
+    underlings_list = Map.keys(t_underlings)
+    underlings = get_managee(underlings_list)
+    render(conn, "new.html", changeset: changeset, underlings: underlings)
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -29,7 +34,7 @@ defmodule TrackerWeb.TaskController do
         |> put_flash(:info, "Task created successfully.")
         |> redirect(to: task_path(conn, :show, task))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, user_list: get_users())
+        render(conn, "new.html", changeset: changeset)
     end
   end
 
@@ -41,7 +46,10 @@ defmodule TrackerWeb.TaskController do
   def edit(conn, %{"id" => id}) do
     task = Track.get_task!(id)
     changeset = Track.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    t_underlings = Tracker.Accounts.list_underlings(task.user_id)
+    underlings_list = Map.keys(t_underlings)
+    underlings = get_managee(underlings_list)
+    render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do

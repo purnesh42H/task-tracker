@@ -13,6 +13,44 @@
   </li>
 
 </ul>
+	
+<h4>Listing Underlings</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User Id</th>
+      <th></th>
+    </tr>
+  <tbody>
+  </thead>
+  <%= for underling <- @underlings do %>
+    <tr>
+      <td><%= underling.managee_name %></td>
+      <td><%= underling.managee_id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h4>Listing Managers</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User Id</th>
+      <th></th>
+    </tr>
+  <tbody>
+  </thead>
+  <%= for manager <- @managers do %>
+    <tr>
+      <td><%= manager.manager_name %></td>
+      <td><%= manager.manager_id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
 
 <span><%= link "Edit", to: user_path(@conn, :edit, @user) %></span>
 <span><%= link "Back", to: page_path(@conn, :index) %></span>
