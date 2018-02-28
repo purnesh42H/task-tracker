@@ -17,11 +17,14 @@
     <%= error_tag f, :description %>
   </div>
 
+  
+  <%= if length(@underlings) > 0 do %>
   <div class="form-group">
     <%= label f, :user_id, class: "control-label" %>
-    <%= text_input f, :user_id,  class: "form-control" %>
+    <%= select f, :user_id, @underlings, class: "form-control" %>
     <%= error_tag f, :user_id %>
   </div>
+  <% end %>
 
   <div class="form-group">
     <%= label f, :minutes, class: "control-label" %>
