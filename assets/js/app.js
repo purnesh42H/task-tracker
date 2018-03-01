@@ -34,6 +34,19 @@ function update_manage_buttons() {
   });
 }
 
+function update_timeblocks_buttons() {
+  $('.timeblock-button').each( (_, bb) => {
+    let task_id = $(bb).data('task-id')
+    let start = $(bb).data('start');
+    if (start != "") {
+      $(bb).text("Stop");
+    }
+    else {
+      $(bb).text("Start");
+    }
+  });
+}
+
 function set_button(user_id, value) {
   $('.manage-button').each( (_, bb) => {
     if (user_id == $(bb).data('user-id')) {
@@ -41,6 +54,15 @@ function set_button(user_id, value) {
     }
   });
   update_manage_buttons();
+}
+
+function set_timeblock_button(task_id, value) {
+  $('.timeblock-button').each( (_, bb) => {
+    if (task_id == $(bb).data('task-id')) {
+      $(bb).data('start', value);
+    }
+  });
+  update_timeblocks_buttons();
 }
 
 function manage(user_id) {
@@ -70,6 +92,19 @@ function unmanage(user_id, manager_id) {
   });
 }
 
+function start_timeblock(task_id) {
+  let cur_time = Date.now();
+  $.ajax(manage_path + "/" + manager_id, {
+    method: "post",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: {
+      start: cur_time, task_id: task_id
+    },
+    success: () => { set_timeblock_button(task_id, cur_time.toString()); },
+  });
+}
+
 function manage_click(ev) {
   let btn = $(ev.target);
   let manager_id = btn.data('manage');
@@ -87,7 +122,9 @@ function manage_timeblock_click(ev) {
   let btn = $(ev.target)
   let task_id = btn.data('task-id');
   let has_blocks = btn.data('has-blocks');
-  console.log(has_blocks);
+  if (has_blocks == "N") {
+    start_timeblock(task_id);
+  }
 }
 
 function init_manage() {

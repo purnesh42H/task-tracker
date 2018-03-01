@@ -8,14 +8,18 @@ defmodule TrackerWeb.TaskController do
   alias Tracker.Accounts
   alias Tracker.Accounts.User
 
-  def index(conn, _params) do
-    tasks = Track.list_tasks()
-    render(conn, "index.html", tasks: tasks)
-  end
-
   defp get_managee(managees) do
     query = from(u in Tracker.Accounts.User, select: {u.name, u.id}, where: u.id in ^managees)
     Repo.all(query)
+  end
+
+  defp get_current_block(timeblocks) {
+    
+  }
+
+  def index(conn, _params) do
+    tasks = Track.list_tasks()
+    render(conn, "index.html", tasks: tasks)
   end
 
   def new(conn, _params) do
@@ -51,7 +55,6 @@ defmodule TrackerWeb.TaskController do
     underlings_list = Map.keys(t_underlings)
     underlings = get_managee(underlings_list)
     timeblocks = Tracker.Track.list_timeblocks(task.id)
-    IO.inspect timeblocks
     render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings, timeblocks: timeblocks)
   end
 
