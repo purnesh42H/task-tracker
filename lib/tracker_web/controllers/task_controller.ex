@@ -51,6 +51,7 @@ defmodule TrackerWeb.TaskController do
     underlings_list = Map.keys(t_underlings)
     underlings = get_managee(underlings_list)
     timeblocks = Tracker.Track.list_timeblocks(task.id)
+    IO.inspect timeblocks
     render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings, timeblocks: timeblocks)
   end
 

@@ -12,7 +12,7 @@ config :tracker,
 # Configures the endpoint
 config :tracker, TrackerWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "0zeAgTSKbse4DRzw54JCZu8Ts5LsmoqpIK49DvWCa4WWyDz/uYfgv1qaQ2xF50i2",
+  secret_key_base: "HjwZvnelzUcB/hq+snlthZXt3wnTZbnykbnqTXKvf944ukkJ1DxW8tZr6kEXTmuD",
   render_errors: [view: TrackerWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Tracker.PubSub,
            adapter: Phoenix.PubSub.PG2]
