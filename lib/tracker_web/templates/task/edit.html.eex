@@ -5,7 +5,13 @@
 <%= render "form.html", Map.put(assigns, :action, task_path(@conn, :update, @task)) %>
 
 <span><button class="timeblock-button btn btn-secondary"
-       data-task-id="<%= @task.id %>">
+       <%= if @timeblocks != %{} do %>
+         data-task-id="<%= @task.id %>"
+         data-has-blocks="Y">
+       <% else %>
+         data-task-id=""
+         data-has-blocks="N">
+       <% end %>
        Start Timer
      </button></span>
 <br>

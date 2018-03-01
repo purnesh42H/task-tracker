@@ -86,13 +86,8 @@ function manage_click(ev) {
 function manage_timeblock_click(ev) {
   let btn = $(ev.target)
   let task_id = btn.data('task-id');
-  $.ajax(timeblock_path + "/" + task_id, {
-    method: "get",
-    dataType: "json",
-    contentType: "application/json; charset=UTF-8",
-    data: "",
-    success: () => { set_timeblock_button(task_id, ""); },
-  });
+  let has_blocks = btn.data('has-blocks');
+  console.log(has_blocks);
 }
 
 function init_manage() {
