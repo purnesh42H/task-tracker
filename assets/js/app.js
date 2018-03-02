@@ -107,8 +107,9 @@ function start_timeblock(task_id, cur_time) {
     contentType: "application/json; charset=UTF-8",
     data: text,
     success: (resp) => {
-      set_timeblock_button(task_id, resp.data.id); },
-  });
+      set_timeblock_button(task_id, resp.data.id);
+      window.location.reload(); },
+   });
 }
 
 function stop_timeblock(task_id, time_id, cur_time) {
@@ -124,7 +125,9 @@ function stop_timeblock(task_id, time_id, cur_time) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: () => { set_timeblock_button(task_id, null); },
+    success: () => {
+      set_timeblock_button(task_id, null);
+      window.location.reload(); },
   });
 }
 
@@ -153,8 +156,46 @@ function manage_timeblock_click(ev) {
   }
 }
 
+function update_timeblock(ev) {
+  console.log("hi");
+  let btn = $(ev.target);
+  let time_id = btn.data('time-id');
+  let start_time = $('#start_'+time_id).val();
+  let end_time = $('#end_'+time_id).val();
+  
+  let text = JSON.stringify({
+    timeblock: {
+      id: time_id,
+      start: start_time,
+      end: end_time
+    },
+  });
+
+  $.ajax(timeblock_path + "/" + time_id, {
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: (resp) => { window.location.reload(); },
+  });
+}
+
+function delete_timeblock(ev) {
+  let btn = $(ev.target);
+  let time_id = btn.data('time-id');
+  
+  $.ajax(timeblock_path + "/" + time_id, {
+    method: "delete",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: "",
+    success: (resp) => { window.location.reload(); },
+  });
+}
+
 function init_manage() {
-  if (!$('.manage-button') || !$('.timeblock-button')) {
+  if (!$('.manage-button') || !$('.timeblock-button') ||
+    !$('timeblock-update') || !$('timeblock-delete')) {
     return;
   }
 
@@ -164,6 +205,9 @@ function init_manage() {
 
   update_manage_buttons();
   update_timeblock_buttons();
+  
+  $('.timeblock-update').click(update_timeblock)
+  $('.timeblock-delete').click(delete_timeblock)
 }
 
 $(init_manage);
