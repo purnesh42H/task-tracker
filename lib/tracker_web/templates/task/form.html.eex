@@ -27,13 +27,6 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :minutes, class: "control-label" %>
-    <%= number_input f, :minutes, class: "form-control" %>
-    <%= error_tag f, :minutes %>
-    <br>
-  </div>
-
-  <div class="form-group">
     <%= label f, :is_completed, class: "control-label" %>
     <%= checkbox f, :is_completed, class: "checkbox" %>
     <%= error_tag f, :is_completed %>

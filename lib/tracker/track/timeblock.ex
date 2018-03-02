@@ -5,8 +5,8 @@ defmodule Tracker.Track.Timeblock do
 
 
   schema "timeblocks" do
-    field :end, :time
-    field :start, :time
+    field :end, :utc_datetime
+    field :start, :utc_datetime
     belongs_to :task, Task
 
     timestamps()
