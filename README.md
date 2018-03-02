@@ -60,6 +60,11 @@ Detailed Time Spent
     - For normal users, there will be links to update task information assigned to them.
     - On All users, you can manage/unmanage other users.
     - To update time, just start the time block and stop once finished. Duration will be automatically calculated.
+  - Users
+    - They have access to only tasks assigned to them. They can navigate to list of tasks through task manager on the landing page.
+    - On task page they can update and create timeblocks.
+    - Start will start the timer and End will end the timer.
+    - Timeblocks list is updated on every click live. However, do update all information(including duration), click on "Save".
 
 ## To start your Phoenix server:
 
