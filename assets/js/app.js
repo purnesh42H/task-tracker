@@ -79,7 +79,9 @@ function manage(user_id) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: (resp) => { set_button(user_id, resp.data.id); },
+    success: (resp) => {
+      set_button(user_id, resp.data.id); 
+      window.location.reload(); },
   });
 }
 
@@ -89,7 +91,9 @@ function unmanage(user_id, manager_id) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: "",
-    success: () => { set_button(user_id, ""); },
+    success: () => {
+       set_button(user_id, "");
+       window.location.reload(); },
   });
 }
 
