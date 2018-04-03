@@ -3,10 +3,48 @@
   window.timeblock_path = "<%= timeblock_path(@conn, :index) %>";
 </script>
 <%= render "form.html", Map.put(assigns, :action, task_path(@conn, :update, @task)) %>
-
-<span><button class="timeblock-button btn btn-secondary"
-       data-task-id="<%= @task.id %>">
-       Start Timer
-     </button></span>
 <br>
-<span><%= link "Back", to: page_path(@conn, :task) %></span>
+<div>
+<p><span><button class="timeblock-button btn btn-secondary"
+       data-task-id="<%= @task.id %>"
+       data-time="<%= DateTime.utc_now()  %>"
+       <%= if length(@timeblocks) > 0 && @running_timeblock_id != nil do %>
+         data-running-time-id="<%= @running_timeblock_id %>"
+       <% end %>
+       >
+       Start Timer
+     </button></span></p>
+<h4> Minutes: <%= @task.minutes %> </h4>
+<%= if length(@timeblocks) > 0 do %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Start</th>
+          <th>end</th>
+          <th></th>
+        <tr>
+      </thead>
+      <tbody>
+        <%= for block <- @timeblocks do %>
+          <tr>
+            <td><input type=text id="start_<%= elem(block, 2)%>" value="<%= elem(block, 0) %>"></td>
+            <td><input type=text id="end_<%= elem(block, 2)%>" value="<%= elem(block, 1) %>"></td>
+            <td class="text-right">
+              <span><button class="timeblock-update btn btn-secondary"
+                data-time-id="<%= elem(block, 2) %>"
+              >
+              Update
+              </button></span>
+              <span><button class="timeblock-delete btn btn-secondary"
+                data-time-id="<%= elem(block, 2) %>"
+              >
+              Delete
+              </button></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+<p><span><%= link "Back", to: page_path(@conn, :task) %></span></p>

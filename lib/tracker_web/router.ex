@@ -43,7 +43,7 @@ defmodule TrackerWeb.Router do
     pipe_through :api
    
     resources "/manages", ManageController, except: [:new, :edit]
-    resources "/timeblocks", TimeblockController, except: [:new, :edit]
+    resources "/timeblocks", TimeblockController
   end
 
   # Other scopes may use custom stacks.

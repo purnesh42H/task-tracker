@@ -46,7 +46,6 @@ defmodule Tracker.Track do
     Repo.all(from b in Timeblock,
       where: b.task_id == ^task_id)
     |> Enum.map(&({&1.start, &1.end,  &1.id}))
-    |> Enum.into(%{})
   end
 
   @doc """
@@ -158,6 +157,7 @@ defmodule Tracker.Track do
 
   """
   def create_timeblock(attrs \\ %{}) do
+    IO.inspect attrs
     %Timeblock{}
     |> Timeblock.changeset(attrs)
     |> Repo.insert()
@@ -176,6 +176,7 @@ defmodule Tracker.Track do
 
   """
   def update_timeblock(%Timeblock{} = timeblock, attrs) do
+    IO.inspect attrs
     timeblock
     |> Timeblock.changeset(attrs)
     |> Repo.update()
